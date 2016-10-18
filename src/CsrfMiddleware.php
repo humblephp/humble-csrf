@@ -21,8 +21,9 @@ class CsrfMiddleware
         if ($request->getMethod() == 'POST') {
             $name = $request->getParsedBody()['CSRFName'];
             $token = $request->getParsedBody()['CSRFToken'];
+
             if (!$this->csrf->validate($name, $token)) {
-                return $response->withStatus(self::BAD_REQUEST);
+                throw new InvalidCsrfTokenException('Invalid Csrf Token');
             }
         }
 
